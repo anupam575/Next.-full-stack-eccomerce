@@ -3,8 +3,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import API from "../../../utils/axiosInstance";
+import API from "@/utils/axiosInstance";
 
+// Correct Paths (Fix!)
 import { AppButton } from "../../components/UI/Button";
 import { AlertDialogModal } from "../../components/UI/AlertDialogModal";
 import SelectBasic from "../../components/UI/Select";
@@ -79,7 +80,6 @@ const AdminUsersPanel = () => {
     fetchAllUsers();
   }, []);
 
-  // DESKTOP TABLE ROWS
   const desktopRows = useMemo(
     () =>
       users.map((u) => (
@@ -94,7 +94,7 @@ const AdminUsersPanel = () => {
           <td className="px-4 py-3 border-r border-gray-300">
             <SelectBasic
               value={u.role}
-              onChange={(e, newVal) => updateUserRole(u._id, newVal)}
+              onChange={(val) => updateUserRole(u._id, val)}
               options={["user", "admin"]}
             />
           </td>
@@ -124,7 +124,6 @@ const AdminUsersPanel = () => {
     [users]
   );
 
-  // MOBILE CARD VIEW
   const mobileCards = useMemo(
     () =>
       users.map((u) => (
@@ -138,7 +137,7 @@ const AdminUsersPanel = () => {
 
           <SelectBasic
             value={u.role}
-            onChange={(e, v) => updateUserRole(u._id, v)}
+            onChange={(val) => updateUserRole(u._id, val)}
             options={["user", "admin"]}
           />
 
@@ -168,7 +167,10 @@ const AdminUsersPanel = () => {
   return (
     <div className="admin-users-container p-4 mt-10">
       <div className="top-bar flex justify-between items-center mb-10">
-        <Link href="/admin/dashboard" className="text-blue-600 flex items-center gap-2">
+        <Link
+          href="/admin/dashboard"
+          className="text-blue-600 flex items-center gap-2"
+        >
           <ArrowBackIcon fontSize="small" /> Back to Dashboard
         </Link>
 
@@ -186,7 +188,6 @@ const AdminUsersPanel = () => {
         <p className="text-gray-600">No users found.</p>
       ) : (
         <>
-          {/* Desktop Table */}
           <div className="desktop-users overflow-x-auto mt-5">
             <table className="min-w-full border border-gray-300 rounded-xl overflow-hidden shadow-sm">
               <thead className="bg-gray-100 border-b border-gray-300">
@@ -204,7 +205,6 @@ const AdminUsersPanel = () => {
             </table>
           </div>
 
-          {/* Mobile Cards */}
           <div className="mobile-users grid grid-cols-1 gap-4 mt-5 md:hidden">
             {mobileCards}
           </div>
@@ -221,7 +221,6 @@ const AdminUsersPanel = () => {
         </div>
       )}
 
-      {/* DELETE CONFIRMATION MODAL */}
       <AlertDialogModal
         open={!!deleteUserId}
         onClose={() => setDeleteUserId(null)}
@@ -232,3 +231,4 @@ const AdminUsersPanel = () => {
 };
 
 export default AdminUsersPanel;
+
